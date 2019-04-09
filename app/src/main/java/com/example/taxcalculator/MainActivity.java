@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView tvResult, tvPrevAmt, tvDeduct;
+    private TextView tvResult, tvPrevAmt, tvDeduct, tvMonthly;
     private Button btnCalculate;
     private EditText etAmount;
 
@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etAmount = findViewById(R.id.etTax);
         tvPrevAmt = findViewById(R.id.tvAmount);
         tvDeduct = findViewById(R.id.tvDeduction);
+        tvMonthly = findViewById(R.id.tvMonth);
+
 
         btnCalculate.setOnClickListener(this);
     }
@@ -41,11 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (validate()) {
-            double amount = Double.parseDouble(etAmount.getText().toString());
+            double amount = Double.parseDouble(etAmount.getText().toString())*12.0;
             if (v.getId() == R.id.btnCalculate) {
 
                 TaxCalculation tx = new TaxCalculation();
                 tx.setAmount(amount);
+                tvMonthly.setText(etAmount.getText().toString());
                 tvDeduct.setText(Float.toString(tx.taxAmount(amount)));
                 tvPrevAmt.setText(Double.toString(amount));
                 tvResult.setText(Double.toString(tx.getAmount()));
